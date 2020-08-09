@@ -1,3 +1,9 @@
+ansible_inventory/
+temp/
+workloads/
+.DS_Store
+*.code-workspace
+
 # Local .terraform directories
 **/.terraform/*
 
