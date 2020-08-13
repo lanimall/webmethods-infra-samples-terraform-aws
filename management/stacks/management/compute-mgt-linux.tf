@@ -60,7 +60,7 @@ resource "aws_route53_record" "management_linux" {
 //Create the bastion userdata script.
 data "template_file" "setup_management_linux" {
   count    = var.instancecount_management_linux
-  template = file("./resources/setup-server.sh")
+  template = file("./resources/setup-management.sh")
   vars = {
     availability_zone = element(split(",", module.management_common_base_network.network_az_mapping[local.region]), count.index)
   }
@@ -76,6 +76,14 @@ resource "aws_instance" "management_linux" {
   user_data                   = data.template_file.setup_management_linux[count.index].rendered
   key_name                    = module.management_common_base_security.ssh_key_pair_internalnode_id
   associate_public_ip_address = "true"
+
+  credit_specification {
+    cpu_credits = "standard"
+  }
+
+  root_block_device {
+    delete_on_termination = true
+  }
 
   vpc_security_group_ids = flatten([
     module.management_common_base_network.common_security,

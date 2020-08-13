@@ -87,6 +87,10 @@ resource "aws_instance" "commandcentral" {
   key_name                    = module.management_common_base_security.ssh_key_pair_internalnode_id
   associate_public_ip_address = "true"
   
+  credit_specification {
+    cpu_credits = "standard"
+  }
+
   root_block_device {
     volume_type = var.commandcentral_rootdisk_storage_type
     delete_on_termination = true
