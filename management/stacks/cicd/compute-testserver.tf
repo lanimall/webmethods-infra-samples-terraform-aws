@@ -84,7 +84,7 @@ resource "aws_instance" "testserver" {
   ami                         = module.global_common_base_compute.common_instance_linux_ami
   instance_type               = var.testserver_instancesize
   user_data                   = data.template_file.setup_testserver[count.index].rendered
-  key_name                    = module.management_common_base_security.ssh_key_pair_bastion_id
+  key_name                    = module.management_common_base_security.ssh_key_pair_internalnode_id
   associate_public_ip_address = "true"
   
   root_block_device {

@@ -74,7 +74,7 @@ resource "aws_instance" "management_linux" {
   ami                         = module.global_common_base_compute.common_instance_linux_ami
   instance_type               = var.instancesize_management_linux
   user_data                   = data.template_file.setup_management_linux[count.index].rendered
-  key_name                    = module.management_common_base_security.ssh_key_pair_bastion_id
+  key_name                    = module.management_common_base_security.ssh_key_pair_internalnode_id
   associate_public_ip_address = "true"
 
   vpc_security_group_ids = flatten([

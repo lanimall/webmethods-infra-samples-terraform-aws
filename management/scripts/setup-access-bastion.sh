@@ -11,23 +11,26 @@ SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
 ## load common vars
 . $BASEDIR/common/scripts/terraform_common.sh
 
+## load workload common
+. $BASEDIR/management/scripts/env.sh
+
 ## Args
+#APP_NAME="saggov_shared_management_azure"
 ENVTARGET="$1"
-APP_NAME="saggov_shared_management_azure"
 
 ## validate the env values and exit if invalid
 validate_args_env $ENVTARGET
 
 ## validate the APP_NAME and exit if invalid
-if [ "x$APP_NAME" = "x" ]; then
-    echo "error: variable 'APP_NAME' is required...exiting!"
-    exit 2;
-fi
+#if [ "x$APP_NAME" = "x" ]; then
+#    echo "error: variable 'APP_NAME' is required...exiting!"
+#    exit 2;
+#fi
 
 ## build appid for the env
-APPID=$(build_token_value $APP_NAME $ENVTARGET)
+#APPID=$(build_token_value $APP_NAME $ENVTARGET)
 
-CONFIGS_BASE_DIR=$HOME/mydevsecrets/$APP_NAME/configs/$ENVTARGET
+CONFIGS_BASE_DIR=$WORKLOAD_RESOURCES_LOCAL_PATH/$ENVTARGET/resources
 BASTION_SSH_PRIV_KEY_PATH=$CONFIGS_BASE_DIR/certs/ssh/sshkey_id_rsa_bastion
 INTERNAL_SSH_PRIV_KEY_PATH=$CONFIGS_BASE_DIR/certs/ssh/sshkey_id_rsa_internalnode
 SETENV_BASTION_PATH=$CONFIGS_BASE_DIR/envs/setenv-bastion.sh
