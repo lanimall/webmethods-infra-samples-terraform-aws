@@ -16,8 +16,8 @@ locals {
 
 //Create the internal DNS.
 resource "aws_route53_zone" "main-internal" {
-  name    = var.resources_internal_dns_apex
-  comment = "Main Internal DNS for demo project [${var.application_code}] - Managed by Terraform"
+  name    = var.dns_internal_apex
+  comment = "Main Internal DNS for [${module.global_common_base.name_prefix_long}] - Managed by Terraform"
   vpc {
     vpc_id = aws_vpc.main.id
   }

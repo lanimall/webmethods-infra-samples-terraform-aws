@@ -8,4 +8,4 @@ $THISDIR/network/cloudops-apply.sh $ARGS
 
 $THISDIR/security/cloudops-apply.sh $ARGS
 
-$THISDIR/loadbalancing/cloudops-apply.sh $ARGS
+$THISDIR/bastion/cloudops-apply.sh $ARGS

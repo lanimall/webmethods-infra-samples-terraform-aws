@@ -15,8 +15,8 @@ locals {
 }
 
 resource "aws_route53_zone" "main-external" {
-  name    = var.resources_external_dns_apex
-  comment = "Main Public DNS for demo project [${var.application_code}] - Managed by Terraform"
+  name    = var.dns_external_apex
+  comment = "Main Public DNS for [${module.global_common_base.name_prefix_long}] - Managed by Terraform"
 
   //  Use our common tags and add a specific name.
   tags = merge(

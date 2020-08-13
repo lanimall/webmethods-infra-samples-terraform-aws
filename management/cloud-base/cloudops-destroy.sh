@@ -4,7 +4,7 @@ ARGS="$@"
 
 THISDIR=`dirname $0`; THISDIR=`cd $THISDIR;pwd`
 
-$THISDIR/loadbalancing/cloudops-destroy.sh $ARGS
+$THISDIR/bastion/cloudops-destroy.sh $ARGS
 
 $THISDIR/security/cloudops-destroy.sh $ARGS
 

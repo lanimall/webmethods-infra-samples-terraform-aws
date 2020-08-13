@@ -1,9 +1,6 @@
 module "global_common_base" {
-  source = "../../../../common/tfmodules/common_base"
+  source = "../../../common/tfmodules/common_base"
 
-  cloud_environment = var.cloud_environment
-  cloud_subscription = var.cloud_subscription
-  cloud_region = var.cloud_region
   project_name = var.project_name
   project_code = var.project_code
   environment_level = var.environment_level
@@ -16,4 +13,15 @@ module "global_common_base" {
   owners = var.owners
   organization = var.organization
   team = var.team
+}
+
+module "management_common_base_security" {
+  source = "../../tfmodules/common_security"
+
+  s3_bucket_name = "softwareag-devops-tfstates"
+  s3_bucket_region = "us-east-1"
+  provider_name = "aws"
+  project_name = var.project_name
+  environment_level = var.environment_level
+  workload_name = var.workload_name
 }

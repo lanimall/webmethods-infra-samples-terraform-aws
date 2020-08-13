@@ -1,0 +1,8 @@
+[all_linux:children]
+$(stackid)management_linux
+
+[all_management:children]
+$(stackid)management_linux
+
+[$(stackid)management_linux]
+${management_linux_servers}

@@ -1,5 +1,5 @@
 module "global_common_base" {
-  source = "../../../../common/tfmodules/common_base"
+  source = "../../../common/tfmodules/common_base"
 
   project_name = var.project_name
   project_code = var.project_code

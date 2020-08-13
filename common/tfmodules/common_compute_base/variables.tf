@@ -1,3 +1,7 @@
+variable "cloud_region" {
+  description = "The default info for linux vms"
+}
+
 variable "common_compute_vm_linux" {
   description = "The default info for linux vms"
 }

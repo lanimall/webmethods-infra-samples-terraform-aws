@@ -1,5 +1,8 @@
 
 locals {
+  common_instance_linux_ami = var.common_compute_vm_linux.os_images[var.cloud_region]
+  common_instance_windows_ami = var.common_compute_vm_windows.os_images[var.cloud_region]
+
   common_instance_scheduler_tags = {
       "Scheduler_Start"      = var.common_compute_scheduler.start_frequency
       "Scheduler_Start_Time" = var.common_compute_scheduler.start_time_utc

@@ -1,0 +1,8 @@
+[all_linux:children]
+commandcentral
+
+[all_webmethods:children]
+commandcentral
+
+[commandcentral]
+${commandcentral_servers}

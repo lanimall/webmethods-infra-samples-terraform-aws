@@ -1,32 +1,36 @@
 
-output "data_azurerm_resource_group" {
-  value = data.azurerm_resource_group.main
+output "network" {
+  value = data.aws_vpc.main
 }
 
-output "data_azurerm_virtual_network" {
-  value = data.azurerm_virtual_network.main
+output "subnet_dmz" {
+  value = data.aws_subnet.dmz
 }
 
-output "data_azurerm_subnet_dmz" {
-  value = data.azurerm_subnet.dmz
+output "subnet_management" {
+  value = data.aws_subnet.mgt
 }
 
-output "data_azurerm_subnet_management" {
-  value = data.azurerm_subnet.management
+output "dns_internal" {
+  value = data.aws_route53_zone.internal
 }
 
-output "data_azurerm_subnet_bastion" {
-  value = data.azurerm_subnet.bastion
+output "dns_external" {
+  value = data.aws_route53_zone.external
 }
 
-output "base_dns_internal_domain_full" {
-  value = data.terraform_remote_state.base_network.outputs.dns_internal_domain_full
+output "dns_internal_apex" {
+  value = local.dns_internal_apex
 }
 
-output "base_dns_internal_domain_top" {
-  value = data.terraform_remote_state.base_network.outputs.dns_internal_domain_top
+output "dns_external_apex" {
+  value = local.dns_external_apex
 }
 
-output "base_dns_internal_domain_sub" {
-  value = data.terraform_remote_state.base_network.outputs.dns_internal_domain_sub
+output "network_az_mapping" {
+  value = local.base_availability_zones_mapping
+}
+
+output "common_security" {
+  value = local.base_aws_security_group_commoninternal
 }

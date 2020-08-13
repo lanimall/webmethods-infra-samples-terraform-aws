@@ -1,10 +1,10 @@
 ############# ssh keys ############
 
-output "aws_key_pair_bastion" {
+output "aws_key_pair_bastion_id" {
   value = aws_key_pair.bastion.id
 }
 
-output "aws_key_pair_internalnode" {
+output "aws_key_pair_internalnode_id" {
   value = aws_key_pair.internalnode.id
 }
 

@@ -165,11 +165,6 @@ resource "aws_iam_role_policy_attachment" "management_node_role1" {
 }
 
 resource "aws_iam_role_policy_attachment" "management_node_role2" {
-  policy_arn = aws_iam_policy.ssm_decrypt.arn
-  role       = aws_iam_role.management_node_role.id
-}
-
-resource "aws_iam_role_policy_attachment" "management_node_role3" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ReadOnlyAccess"
   role       = aws_iam_role.management_node_role.id
 }
@@ -180,11 +175,6 @@ resource "aws_iam_role_policy_attachment" "app_node_role1" {
 }
 
 resource "aws_iam_role_policy_attachment" "app_node_role2" {
-  policy_arn = aws_iam_policy.ssm_decrypt.arn
-  role       = aws_iam_role.app_node_role.id
-}
-
-resource "aws_iam_role_policy_attachment" "app_node_role3" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ReadOnlyAccess"
   role       = aws_iam_role.app_node_role.id
 }

@@ -1,19 +1,10 @@
 subnet_shortname_management="management"
-subnet_shortname_management_size="small"
+subnet_shortname_management_size="medium"
 subnet_shortname_management_index="0"
 
-subnet_shortname_bastion="bastion"
-subnet_shortname_bastion_size="xxsmall"
-subnet_shortname_bastion_index="0"
-
 subnet_shortname_dmz="dmz"
-subnet_shortname_dmz_size="xxsmall"
-subnet_shortname_dmz_index="1"
-
-## note: The name must be exactly 'AzureFirewallSubnet' to be used for the Azure Firewall resource
-subnet_shortname_firewall="AzureFirewallSubnet"
-subnet_shortname_firewall_size="xxsmall"
-subnet_shortname_firewall_index="2"
+subnet_shortname_dmz_size="xsmall"
+subnet_shortname_dmz_index="0"
 
 # Note: the network_cidr_prefix will be given at runtime for security reasons
 

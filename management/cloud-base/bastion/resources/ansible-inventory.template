@@ -1,0 +1,15 @@
+[all_linux:children]
+$(stackid)bastion_linux
+
+[all_windows:children]
+$(stackid)bastion_windows
+
+[all_bastion:children]
+$(stackid)bastion_linux
+$(stackid)bastion_windows
+
+[$(stackid)bastion_linux]
+${bastion_linux_servers}
+
+[$(stackid)bastion_windows]
+${bastion_windows_servers}
