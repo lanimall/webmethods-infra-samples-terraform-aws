@@ -12,6 +12,10 @@ locals {
   hostname_delimiter = ""
   inventory_filename_delimiter = "_"
 
+  ## probably clean better (ie. remove duplicate spaces)
+  project_name_clean = replace(var.project_name, " ", local.name_delimiter)
+  workload_name_clean = replace(var.workload_name, " ", local.name_delimiter)
+  workload_code_clean = replace(var.workload_code, " ", local.name_delimiter)
   provisioning_stack_clean = replace(var.provisioning_stack, " ", local.name_delimiter)
 
   name_friendly_id = lower(

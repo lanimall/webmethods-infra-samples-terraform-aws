@@ -150,7 +150,7 @@ resource "aws_alb_listener_rule" "apigateway_runtime" {
 
   condition {
     host_header {
-      values = ["${var.apigateway_runtime_external_host_name}.${module.common_network.dns_external_apex}"]
+      values = ["${var.apigateway_runtime_external_host_name}-${module.global_common_base.workload_name_clean}.${module.common_network.dns_external_apex}"]
     }
   }
 }

@@ -1,0 +1,11 @@
+[all_linux:children]
+$(stackid)integrationserver
+
+[all_webmethods:children]
+$(stackid)integrationserver
+
+[integration:children]
+$(stackid)integrationserver
+
+[$(stackid)integrationserver]
+${integrationserver_servers}

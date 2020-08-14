@@ -1,0 +1,1 @@
+$(stackid)${alias}_${index} ansible_host=${ip} ip=${ip} fqdn=${dns}

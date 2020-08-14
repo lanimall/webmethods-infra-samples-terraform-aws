@@ -14,6 +14,22 @@ output "name_prefix_short" {
   value = local.name_prefix_short
 }
 
+output "project_name_clean" {
+  value = local.project_name_clean
+}
+
+output "workload_name_clean" {
+  value = local.workload_name_clean
+}
+
+output "workload_code_clean" {
+  value = local.workload_code_clean
+}
+
+output "provisioning_stack_clean" {
+  value = local.provisioning_stack_clean
+}
+
 output "common_tags" {
   value = local.common_tags
 }
