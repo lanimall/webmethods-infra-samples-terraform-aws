@@ -9,28 +9,6 @@ data "template_file" "apigateway_inventory_entry" {
   }
 }
 
-data "template_file" "internaldatastore_inventory_entry" {
-  count    = length(aws_instance.internaldatastore)
-  template = file("${path.cwd}/resources/ansible-inventory-entry.template")
-  vars = {
-    alias = var.internaldatastore_hostname
-    index =  tostring(count.index + 1)
-    ip = aws_instance.internaldatastore[count.index].private_ip
-    dns = aws_instance.internaldatastore[count.index].private_dns
-  }
-}
-
-data "template_file" "terracotta_inventory_entry" {
-  count    = length(aws_instance.terracotta)
-  template = file("${path.cwd}/resources/ansible-inventory-entry.template")
-  vars = {
-    alias = var.terracotta_hostname
-    index =  tostring(count.index + 1)
-    ip = aws_instance.terracotta[count.index].private_ip
-    dns = aws_instance.terracotta[count.index].private_dns
-  }
-}
-
 data "template_file" "apiportal_inventory_entry" {
   count    = length(aws_instance.apiportal)
   template = file("${path.cwd}/resources/ansible-inventory-entry.template")
@@ -46,8 +24,6 @@ data "template_file" "ansible_inventory" {
   template = file("${path.cwd}/resources/ansible-inventory.template")
   vars = {
     apigateway_servers = join("\n", data.template_file.apigateway_inventory_entry.*.rendered)
-    apigwinternaldatastore_servers = join("\n", data.template_file.internaldatastore_inventory_entry.*.rendered)
-    apigwterracotta_servers = join("\n", data.template_file.terracotta_inventory_entry.*.rendered)
     apiportal_servers = join("\n", data.template_file.apiportal_inventory_entry.*.rendered)
   }
 }

@@ -1,35 +1,19 @@
 [all_linux:children]
 $(stackid)apigateway
-$(stackid)apigwinternaldatastore
-$(stackid)apigwterracotta
 $(stackid)apiportal
 
 [all_webmethods:children]
 $(stackid)apigateway
-$(stackid)apigwinternaldatastore
-$(stackid)apigwterracotta
 $(stackid)apiportal
 
 [apigateway:children]
 $(stackid)apigateway
-
-[terracotta:children]
-$(stackid)apigwterracotta
-
-[apigwinternaldatastore:children]
-$(stackid)apigwinternaldatastore
 
 [apiportal:children]
 $(stackid)apiportal
 
 [$(stackid)apigateway]
 ${apigateway_servers}
-
-[$(stackid)apigwinternaldatastore]
-${apigwinternaldatastore_servers}
-
-[$(stackid)apigwterracotta]
-${apigwterracotta_servers}
 
 [$(stackid)apiportal]
 ${apiportal_servers}
