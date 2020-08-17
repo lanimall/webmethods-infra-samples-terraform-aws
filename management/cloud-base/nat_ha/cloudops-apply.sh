@@ -16,7 +16,7 @@ TF_ARGS="${@:2}"
 validate_args_env $ENVTARGET
 
 ## load workload common
-. $BASEDIR/management/scripts/env.sh
+. $THISDIR/../../scripts/env.sh
 
 COMMON_STACK_CONFIGS_FILE="$WORKLOAD_RESOURCES_LOCAL_PATH/$ENVTARGET/tfconfigs/common.tfvars"
 STACK_CONFIGS_FILE="$WORKLOAD_RESOURCES_LOCAL_PATH/$ENVTARGET/tfconfigs/$RELATIVE_PATH/stack-configs.tfvars"

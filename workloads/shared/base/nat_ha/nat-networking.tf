@@ -1,6 +1,6 @@
 
 resource "aws_eip" "natinstance" {
-  count  = length(split(",", module.base_network.network_az_mapping[var.cloud_region]))
+  count  = length(split(",", module.common_network.network_az_mapping[var.cloud_region]))
   
   vpc               = true
   network_interface = aws_network_interface.natinstance[count.index].id
@@ -14,11 +14,11 @@ resource "aws_eip" "natinstance" {
 }
 
 resource "aws_network_interface" "natinstance" {
-  count  = length(split(",", module.base_network.network_az_mapping[var.cloud_region]))
+  count  = length(split(",", module.common_network.network_az_mapping[var.cloud_region]))
   description       = "ENI for NAT instance"
 
   security_groups = flatten([
-    module.base_network.common_securitygroup.id,
+    module.common_network.common_securitygroup.id,
     [ 
       aws_security_group.natinstance.id 
     ]
@@ -40,9 +40,9 @@ resource "aws_network_interface" "natinstance" {
 }
 
 resource "aws_route" "private_nat" {
-  count  = length(split(",", module.base_network.network_az_mapping[var.cloud_region]))
+  count  = length(split(",", module.common_network.network_az_mapping[var.cloud_region]))
 
-  route_table_id         = module.base_network.route_table_private[count.index].id
+  route_table_id         = module.common_network.route_table_private[count.index].id
   destination_cidr_block = "0.0.0.0/0"
   network_interface_id   = aws_network_interface.natinstance[count.index].id
 }

@@ -41,7 +41,7 @@ locals {
     }
   )
 
-  natinstance_subnets = module.base_network.subnet_dmz
+  natinstance_subnets = module.common_network.subnet_dmz
 }
 
 ################################################
@@ -68,16 +68,16 @@ data "aws_ami" "natinstance_aws_amis" {
 
 //Create the bastion userdata script.
 data "template_file" "setup_natinstance" {
-  count  = length(split(",", module.base_network.network_az_mapping[var.cloud_region]))
+  count  = length(split(",", module.common_network.network_az_mapping[var.cloud_region]))
   template = file("./resources/setup-nat.sh")
   vars = {
-    availability_zone = element(split(",", module.base_network.network_az_mapping[local.region]), count.index)
+    availability_zone = element(split(",", module.common_network.network_az_mapping[local.region]), count.index)
   }
 }
 
 ##use launch templates to re-create the nat instance if soemthing happens
 resource "aws_launch_template" "natinstance" {
-  count  = length(split(",", module.base_network.network_az_mapping[var.cloud_region]))
+  count  = length(split(",", module.common_network.network_az_mapping[var.cloud_region]))
   name_prefix  = "${module.global_common_base.name_prefix_short}-nat"
   description = "Launch template for NAT instances"
   
@@ -85,7 +85,7 @@ resource "aws_launch_template" "natinstance" {
   instance_type = var.natinstance_instancesize
   user_data     = base64encode(data.template_file.setup_natinstance[count.index].rendered)
   instance_initiated_shutdown_behavior = "stop"
-  key_name      = module.base_security.ssh_key_pair_internalnode_id
+  key_name      = module.common_security.ssh_key_pair_internalnode_id
 
   iam_instance_profile {
     arn = aws_iam_instance_profile.natinstance.arn

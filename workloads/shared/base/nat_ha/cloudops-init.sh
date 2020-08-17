@@ -3,7 +3,7 @@ set -e
 
 THIS=`basename $0`
 THISDIR=`dirname $0`; THISDIR=`cd $THISDIR;pwd`
-BASEDIR="$THISDIR/../../.."
+BASEDIR="$THISDIR/../../../.."
 RELATIVE_PATH=`echo $THISDIR | rev | cut -d"/" -f1-2  | rev`
 
 ENVTARGET="$1"

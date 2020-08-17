@@ -13,7 +13,7 @@ EXIT_STATUS=0
 ARGS="$@"
 
 command_filename="$THIS"
-commands=("$THISDIR/bastion/$command_filename $ARGS" "$THISDIR/nat_ha/$command_filename $ARGS" "$THISDIR/network/$command_filename $ARGS" "$THISDIR/security/$command_filename $ARGS" )
+commands=("$THISDIR/command_central/$command_filename $ARGS" "$THISDIR/cicd/$command_filename $ARGS" "$THISDIR/management/$command_filename $ARGS")
 
 command_looping "${commands[@]}" || EXIT_STATUS=$?
 

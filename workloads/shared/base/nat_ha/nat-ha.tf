@@ -1,5 +1,5 @@
 resource "aws_autoscaling_group" "natinstance" {
-    count  = length(split(",", module.base_network.network_az_mapping[var.cloud_region]))
+    count  = length(split(",", module.common_network.network_az_mapping[var.cloud_region]))
 
     name_prefix  = "${module.global_common_base.name_prefix_short}-nat"
     desired_capacity   = 1

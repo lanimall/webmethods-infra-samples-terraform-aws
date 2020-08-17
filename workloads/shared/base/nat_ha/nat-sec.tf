@@ -1,20 +1,20 @@
 resource "aws_security_group" "natinstance" {
   name        = "${module.global_common_base.name_prefix_short}-nat"
   description = "Sec group for the nat instances"
-  vpc_id      = module.base_network.network.id
+  vpc_id      = module.common_network.network.id
 
   ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = [module.base_network.network.cidr_block]
+    cidr_blocks = [module.common_network.network.cidr_block]
   }
 
   ingress {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = [module.base_network.network.cidr_block]
+    cidr_blocks = [module.common_network.network.cidr_block]
   }
 
   egress {
