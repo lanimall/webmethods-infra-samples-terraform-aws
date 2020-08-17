@@ -15,7 +15,7 @@ module "global_common_base" {
   team = var.team
 }
 
-module "management_common_base_security" {
+module "base_security" {
   source = "../../tfmodules/common_security"
 
   s3_bucket_name = "softwareag-devops-tfstates"

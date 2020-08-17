@@ -2,6 +2,14 @@ output "vpc_id" {
   value = aws_vpc.main.id
 }
 
+output "aws_route_table_public_id" {
+  value = aws_route_table.public.id
+}
+
+output "aws_route_table_private_ids" {
+  value = aws_route_table.private.*.id
+}
+
 output "availability_zones_mapping" {
   value = var.availability_zones_mapping
 }

@@ -75,7 +75,6 @@ resource "aws_instance" "management_linux" {
   instance_type               = var.instancesize_management_linux
   user_data                   = data.template_file.setup_management_linux[count.index].rendered
   key_name                    = module.management_common_base_security.ssh_key_pair_internalnode_id
-  associate_public_ip_address = "true"
 
   credit_specification {
     cpu_credits = "standard"
@@ -86,7 +85,7 @@ resource "aws_instance" "management_linux" {
   }
 
   vpc_security_group_ids = flatten([
-    module.management_common_base_network.common_security,
+    module.management_common_base_network.common_securitygroup.id,
     [ 
       aws_security_group.management_linux.id 
     ]

@@ -15,3 +15,6 @@ yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarc
 ## ansible
 yum install -y ansible
 ansible localhost -m ping
+
+# initial yum update ot the latest
+yum update -y

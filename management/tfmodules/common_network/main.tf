@@ -21,13 +21,32 @@ data "terraform_remote_state" "base_network" {
 locals {
   base_vpc_id = data.terraform_remote_state.base_network.outputs.vpc_id
   base_availability_zones_mapping = data.terraform_remote_state.base_network.outputs.availability_zones_mapping
-  base_aws_security_group_commoninternal = data.terraform_remote_state.base_network.outputs.aws_security_group_commoninternal
+  base_aws_security_group_commoninternal_id = data.terraform_remote_state.base_network.outputs.aws_security_group_commoninternal_id
+  base_aws_route_table_public_id = data.terraform_remote_state.base_network.outputs.aws_route_table_public_id
+  base_aws_route_table_private_ids = data.terraform_remote_state.base_network.outputs.aws_route_table_private_ids
   base_dns_main_internal_zoneid=data.terraform_remote_state.base_network.outputs.dns_main_internal_zoneid
   base_dns_main_internal_apex=data.terraform_remote_state.base_network.outputs.dns_main_internal_apex
-  base_dns_main_external_zoneid=data.terraform_remote_state.base_network.outputs.dns_main_external_zoneid
+  # base_dns_main_external_zoneid=data.terraform_remote_state.base_network.outputs.dns_main_external_zoneid
   base_dns_main_external_apex=data.terraform_remote_state.base_network.outputs.dns_main_external_apex
   base_subnet_shortname_dmz=data.terraform_remote_state.base_network.outputs.subnet_shortname_dmz
   base_subnet_shortname_management=data.terraform_remote_state.base_network.outputs.subnet_shortname_management
+}
+
+###################### base security group
+
+data "aws_security_group" "aws_security_group_commoninternal" {
+  id = local.base_aws_security_group_commoninternal_id
+}
+
+###################### base route tables
+
+data "aws_route_table" "public" {
+  route_table_id = local.base_aws_route_table_public_id
+}
+
+data "aws_route_table" "private" {
+  count  = length(local.base_aws_route_table_private_ids)
+  route_table_id = local.base_aws_route_table_private_ids[count.index]
 }
 
 ###################### get the VPC from ID
@@ -38,20 +57,21 @@ data "aws_vpc" "main" {
 
 ###################### Reference to the internal DNS.
 
-data "aws_route53_zone" "external" {
-  zone_id = local.base_dns_main_external_zoneid
-}
+# data "aws_route53_zone" "external" {
+#   zone_id = local.base_dns_main_external_zoneid
+# }
 
 data "aws_route53_zone" "internal" {
   zone_id = local.base_dns_main_internal_zoneid
 }
 
 locals {
-  dns_external_apex = substr(
-    data.aws_route53_zone.external.name,
-    0,
-    length(data.aws_route53_zone.external.name) - 1,
-  )
+  dns_external_apex = local.base_dns_main_external_apex
+  # dns_external_apex = substr(
+  #   data.aws_route53_zone.external.name,
+  #   0,
+  #   length(data.aws_route53_zone.external.name) - 1,
+  # )
   dns_internal_apex = substr(
     data.aws_route53_zone.internal.name,
     0,

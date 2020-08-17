@@ -20,17 +20,17 @@ output "main_public_alb_https_id" {
 
 ####### Main public app traffic
 
-resource "aws_route53_record" "main-alb-wildcard" {
-  zone_id = aws_route53_zone.main-external.zone_id
-  name    = "*.${aws_route53_zone.main-external.name}"
-  type    = "A"
+# resource "aws_route53_record" "main-alb-wildcard" {
+#   zone_id = aws_route53_zone.main-external.zone_id
+#   name    = "*.${aws_route53_zone.main-external.name}"
+#   type    = "A"
 
-  alias {
-    name                   = aws_lb.main-public-alb.dns_name
-    zone_id                = aws_lb.main-public-alb.zone_id
-    evaluate_target_health = true
-  }
-}
+#   alias {
+#     name                   = aws_lb.main-public-alb.dns_name
+#     zone_id                = aws_lb.main-public-alb.zone_id
+#     evaluate_target_health = true
+#   }
+# }
 
 resource "aws_lb" "main-public-alb" {
   name               = "${module.global_common_base.name_prefix_short}main"

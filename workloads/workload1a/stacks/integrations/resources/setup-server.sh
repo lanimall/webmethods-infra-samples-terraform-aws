@@ -11,3 +11,6 @@ unzip awscliv2.zip
 
 # epel
 yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+
+# initial yum update ot the latest
+yum update -y

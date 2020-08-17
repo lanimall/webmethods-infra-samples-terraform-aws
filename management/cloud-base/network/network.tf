@@ -2,6 +2,14 @@ output "vpc_id" {
   value = aws_vpc.main.id
 }
 
+output "aws_route_table_public_id" {
+  value = aws_route_table.public.id
+}
+
+output "aws_route_table_private_ids" {
+  value = aws_route_table.private.*.id
+}
+
 output "availability_zones_mapping" {
   value = var.availability_zones_mapping
 }
@@ -97,47 +105,6 @@ resource "aws_route_table" "private" {
       "az"   = element(split(",", var.availability_zones_mapping[var.cloud_region]), count.index)
     },
   )
-}
-
-##########################
-# NAT GATEWAYS
-##########################
-
-// create eip for nat
-resource "aws_eip" "NATGW" {
-  count = length(split(",", var.availability_zones_mapping[var.cloud_region]))
-  vpc   = true
-
-  tags = {
-    Name = "${module.global_common_base.name_prefix_long}-natgw-az${count.index + 1}"
-  }
-}
-
-resource "aws_nat_gateway" "NATGW" {
-  count         = length(split(",", var.availability_zones_mapping[var.cloud_region]))
-  allocation_id = element(aws_eip.NATGW.*.id, count.index)
-  subnet_id     = element(aws_subnet.dmz.*.id, count.index)
-  depends_on    = [aws_internet_gateway.main]
-
-  //  Use our common tags and add a specific name.
-  tags = merge(
-    module.global_common_base.common_tags,
-    {
-      "Name" = "${module.global_common_base.name_prefix_long}-natgw-az${count.index + 1}"
-      "az"   = element(split(",", var.availability_zones_mapping[var.cloud_region]), count.index)
-    },
-  )
-}
-
-resource "aws_route" "private_nat_gateway" {
-  count                  = length(split(",", var.availability_zones_mapping[var.cloud_region]))
-  route_table_id         = element(aws_route_table.private.*.id, count.index)
-  destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id         = element(aws_nat_gateway.NATGW.*.id, count.index)
-
-  timeouts {
-    create = "5m"
-  }
 }
 
 ########################### SUBNETS ####################################

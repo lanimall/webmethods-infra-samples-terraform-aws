@@ -52,8 +52,8 @@ locals {
 resource "aws_route53_record" "bastion_linux" {
   count = var.instancecount_bastion_linux
 
-  zone_id = module.management_common_base_network.dns_internal.zone_id
-  name    = "${var.hostname_bastion_linux}${count.index + 1}.${module.global_common_base.name_prefix_long}.${module.management_common_base_network.dns_internal_apex}"
+  zone_id = module.base_network.dns_internal.zone_id
+  name    = "${var.hostname_bastion_linux}${count.index + 1}.${module.global_common_base.name_prefix_long}.${module.base_network.dns_internal_apex}"
   type    = "A"
   ttl     = 300
   records = [
@@ -75,8 +75,8 @@ resource "aws_eip" "bastion_linux" {
   tags = merge(
     module.global_common_base.common_tags,
     {
-      "Name" = "${module.global_common_base.name_prefix_long}-bastion_linux${count.index + 1}-${module.management_common_base_network.subnet_dmz[count.index].availability_zone}"
-      "az"   = module.management_common_base_network.subnet_dmz[count.index].availability_zone
+      "Name" = "${module.global_common_base.name_prefix_long}-bastion_linux${count.index + 1}-${module.base_network.subnet_dmz[count.index].availability_zone}"
+      "az"   = module.base_network.subnet_dmz[count.index].availability_zone
     },
   )
 }
@@ -93,7 +93,7 @@ data "template_file" "setup_bastion_linux" {
   count    = var.instancecount_bastion_linux
   template = file("./resources/setup-bastion-linux.sh")
   vars = {
-    availability_zone = element(split(",", module.management_common_base_network.network_az_mapping[local.region]), count.index)
+    availability_zone = element(split(",", module.base_network.network_az_mapping[local.region]), count.index)
   }
 }
 
@@ -101,11 +101,11 @@ data "template_file" "setup_bastion_linux" {
 resource "aws_instance" "bastion_linux" {
   count = var.instancecount_bastion_linux
 
-  subnet_id                   = module.management_common_base_network.subnet_dmz[count.index].id
+  subnet_id                   = module.base_network.subnet_dmz[count.index].id
   ami                         = module.global_common_base_compute.common_instance_linux_ami
   instance_type               = var.instancesize_bastion_linux
   user_data                   = data.template_file.setup_bastion_linux[count.index].rendered
-  key_name                    = module.management_common_base_security.ssh_key_pair_bastion_id
+  key_name                    = module.base_security.ssh_key_pair_bastion_id
   associate_public_ip_address = "true"
 
   credit_specification {
@@ -122,8 +122,8 @@ resource "aws_instance" "bastion_linux" {
   tags = merge(
     local.bastion_linux_tags,
     {
-      "Name" = "${module.global_common_base.name_prefix_long}-bastion_linux${count.index + 1}-${module.management_common_base_network.subnet_dmz[count.index].availability_zone}"
-      "az"   = module.management_common_base_network.subnet_dmz[count.index].availability_zone
+      "Name" = "${module.global_common_base.name_prefix_long}-bastion_linux${count.index + 1}-${module.base_network.subnet_dmz[count.index].availability_zone}"
+      "az"   = module.base_network.subnet_dmz[count.index].availability_zone
     },
   )
 }

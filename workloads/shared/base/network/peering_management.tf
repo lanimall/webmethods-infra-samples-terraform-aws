@@ -33,7 +33,7 @@ resource "aws_vpc_peering_connection_options" "peer_management_plane" {
 # Peering routes to the private route
 #################################
 
-resource "aws_route" "peering" {
+resource "aws_route" "route_to_management_plane" {
   count  = length(split(",", var.availability_zones_mapping[var.cloud_region]))
 
   route_table_id         = aws_route_table.private[count.index].id
@@ -45,7 +45,32 @@ resource "aws_route" "peering" {
   }
 }
 
-resource "aws_security_group_rule" "management_plane_ingress_all" {
+resource "aws_route" "route_to_this_from_management" {
+  count  = length(split(",", module.management_network.network_az_mapping[var.cloud_region]))
+
+  route_table_id         = module.management_network.route_table_private[count.index].id
+  destination_cidr_block = aws_vpc.main.cidr_block
+  vpc_peering_connection_id = aws_vpc_peering_connection.peer_management_plane.id
+
+  timeouts {
+    create = "5m"
+  }
+}
+
+## add a new wildcard rule to the common management outbound security group
+resource "aws_security_group_rule" "management_plane_egress_to_here" {
+  type              = "egress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  cidr_blocks       = [
+    aws_vpc.main.cidr_block
+  ]
+  security_group_id = module.management_network.common_securitygroup.id
+}
+
+## add a new wildcard rule to the common management outbound security group
+resource "aws_security_group_rule" "ingress_from_management_plane" {
   type              = "ingress"
   from_port         = 0
   to_port           = 0
@@ -56,8 +81,8 @@ resource "aws_security_group_rule" "management_plane_ingress_all" {
   security_group_id = aws_security_group.common-internal.id
 }
 
-resource "aws_security_group_rule" "management_plane_egress_cce" {
-  type              = "egress"
+resource "aws_security_group_rule" "egress_to_management_plane_cce" {
+  type        = "egress"
   from_port   = 8090
   to_port     = 8093
   protocol    = "tcp"

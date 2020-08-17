@@ -87,7 +87,6 @@ resource "aws_instance" "internaldatastore" {
   instance_type               = var.internaldatastore_instancesize
   user_data                   = data.template_file.setup_internaldatastore[count.index].rendered
   key_name                    = module.common_security.ssh_key_pair_internalnode_id
-  associate_public_ip_address = "true"
 
   credit_specification {
     cpu_credits = "standard"
@@ -99,7 +98,7 @@ resource "aws_instance" "internaldatastore" {
   }
 
   vpc_security_group_ids = flatten([
-    module.common_network.common_network_securitygroup,
+    module.common_network.common_securitygroup.id,
     [ 
       aws_security_group.apigateway_internaldatastore.id
     ]

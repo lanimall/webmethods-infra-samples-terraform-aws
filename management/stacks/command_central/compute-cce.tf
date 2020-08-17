@@ -85,7 +85,6 @@ resource "aws_instance" "commandcentral" {
   instance_type               = var.commandcentral_instancesize
   user_data                   = data.template_file.setup_commandcentral[count.index].rendered
   key_name                    = module.management_common_base_security.ssh_key_pair_internalnode_id
-  associate_public_ip_address = "true"
   
   credit_specification {
     cpu_credits = "standard"
@@ -97,7 +96,7 @@ resource "aws_instance" "commandcentral" {
   }
 
   vpc_security_group_ids = flatten([
-    module.management_common_base_network.common_security,
+    module.management_common_base_network.common_securitygroup.id,
     [ 
       aws_security_group.webmethods-commandcentral.id 
     ]

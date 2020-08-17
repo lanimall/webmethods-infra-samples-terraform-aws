@@ -1,4 +1,4 @@
-output "aws_security_group_commoninternal" {
+output "aws_security_group_commoninternal_id" {
   value = aws_security_group.common-internal.id
 }
 

@@ -4,7 +4,7 @@
 resource "aws_security_group" "bastion_linux" {
   name        = "${module.global_common_base.name_prefix_short}-bastion_linux"
   description = "Security group for linux bastion ingress/egress (ssh)"
-  vpc_id      = module.management_common_base_network.network.id
+  vpc_id      = module.base_network.network.id
 
   //  SSH
   ingress {
@@ -19,14 +19,14 @@ resource "aws_security_group" "bastion_linux" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = [module.management_common_base_network.network.cidr_block]
+    cidr_blocks = [module.base_network.network.cidr_block]
   }
 
   egress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = [module.management_common_base_network.network.cidr_block]
+    cidr_blocks = [module.base_network.network.cidr_block]
   }
 
   //egress to public - TODO: TEMP?
@@ -49,7 +49,7 @@ resource "aws_security_group" "bastion_linux" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = [module.management_common_base_network.network.cidr_block]
+    cidr_blocks = [module.base_network.network.cidr_block]
   }
 
   //  Use our common tags and add a specific name.
@@ -67,7 +67,7 @@ resource "aws_security_group" "bastion_linux" {
 resource "aws_security_group" "bastion_windows" {
   name        = "${module.global_common_base.name_prefix_short}-bastion_windows"
   description = "Security group for windows bastion ingress/egress (rdp)"
-  vpc_id      = module.management_common_base_network.network.id
+  vpc_id      = module.base_network.network.id
 
   //  HTTPS
   ingress {
@@ -97,14 +97,14 @@ resource "aws_security_group" "bastion_windows" {
     from_port   = 3389
     to_port     = 3389
     protocol    = "tcp"
-    cidr_blocks = [module.management_common_base_network.network.cidr_block]
+    cidr_blocks = [module.base_network.network.cidr_block]
   }
 
   egress {
     from_port   = 3389
     to_port     = 3389
     protocol    = "tcp"
-    cidr_blocks = [module.management_common_base_network.network.cidr_block]
+    cidr_blocks = [module.base_network.network.cidr_block]
   }
 
   //egress to public - TODO: TEMP?
@@ -127,7 +127,7 @@ resource "aws_security_group" "bastion_windows" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = [module.management_common_base_network.network.cidr_block]
+    cidr_blocks = [module.base_network.network.cidr_block]
   }
 
   //  Use our common tags and add a specific name.
@@ -146,7 +146,7 @@ resource "aws_security_group" "bastion_windows" {
 resource "aws_security_group" "management_linux" {
   name        = "${module.global_common_base.name_prefix_short}-management_linux"
   description = "Management server for devops operations"
-  vpc_id      = module.management_common_base_network.network.id
+  vpc_id      = module.base_network.network.id
 
   //  SSH
   ingress {
@@ -161,7 +161,7 @@ resource "aws_security_group" "management_linux" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = [module.management_common_base_network.network.cidr_block]
+    cidr_blocks = [module.base_network.network.cidr_block]
   }
 
   //  Use our common tags and add a specific name.
@@ -177,7 +177,7 @@ resource "aws_security_group" "management_linux" {
 resource "aws_security_group" "management_windows" {
   name        = "${module.global_common_base.name_prefix_short}-management_windows"
   description = "Management server for devops operations"
-  vpc_id      = module.management_common_base_network.network.id
+  vpc_id      = module.base_network.network.id
 
   //  RDP
   ingress {
@@ -192,7 +192,7 @@ resource "aws_security_group" "management_windows" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = [module.management_common_base_network.network.cidr_block]
+    cidr_blocks = [module.base_network.network.cidr_block]
   }
 
   //  Use our common tags and add a specific name.
